@@ -1,0 +1,56 @@
+#header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px;
+}
+#leftside {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:520px;
+    width:320px;
+    float:left;
+    padding:5px;
+}
+#rightside {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:520px;
+    width:320px;
+    float:right;
+    padding:5px;
+}
+#abstract {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:250px;
+    width:300px;
+    float:left;
+    padding:5px;
+    overflow-y:scroll;
+    border: 1px solid black;
+}
+#claims {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:250px;
+    width:300px;
+    float:left;
+    padding:5px;
+    overflow-y:scroll;
+    border: 1px solid black;
+}
+#mynetwork {
+    width:600px;
+    height:400px;
+    overflow-y:scroll;
+    border: 1px solid lightgray;
+}
+#footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px;
+}
+

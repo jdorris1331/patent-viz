@@ -1,0 +1,122 @@
+html
+  head
+
+  <script type="text/javascript" src="/scripts/vis.js"></script>
+  <link href="/scripts/vis.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="node_modules/vis/dist/vis.js"></script>
+  <link href="node_modules/vis/dist/vis.css" rel="stylesheet" type="text/css" />
+
+<style>
+#header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px;
+}
+#leftside {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:520px;
+    width:320px;
+    float:left;
+    padding:5px;
+}
+#rightside {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:520px;
+    width:320px;
+    float:right;
+    padding:5px;
+}
+#abstract {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:250px;
+    width:300px;
+    float:left;
+    padding:5px;
+    overflow-y:scroll;
+    border: 1px solid black;
+}
+#claims {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:250px;
+    width:300px;
+    float:left;
+    padding:5px;
+    overflow-y:scroll;
+    border: 1px solid black;
+}
+#mynetwork {
+    width:600px;
+    height:400px;
+    overflow-y:scroll;
+    border: 1px solid lightgray;
+}
+#footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px;
+}
+</style>
+</head>
+<body>
+
+<div id="header">
+<h1>Patent US7322199: Stirling cooler</h1>
+</div>
+<div id="leftside">
+<div id="abstract">
+Disclosed is a Stirling cooler, in which a partition contacting a front surface of an inner stator is formed on a cylinder and a second stopper serving as a snap ring contacting a rear surface of the inner stator is detachably inserted into a ring-shaped groove of the cylinder, thus allowing the inner stator to be easily attached to and detached from the cylinder. Further, a protrusion inserted into a ring-shaped groove formed in the front surface of the inner stator is formed on the partition, and serves as an end ring of the inner stator, thus simplifying the assembly and disassembly of the inner stator. 
+</div>
+
+<div id="claims">
+1. A Stirling cooler comprising: a case; a cylinder fixedly installed in the case, and provided with a piston such that the piston can reciprocate therein; a displacer installed in the piston such that the displacer can reciprocate therein; a regenerator connected to the displacer in a line in an axial direction of the cylinder; an outer stator fixed between the case and the cylinder; an inner stator inserted into an outer surface of the cylinder; a magnet positioned between the outer stator and the inner stator to reciprocate the piston; and a fixing device that fixes the inner stator to the cylinder, wherein the fixing device includes: a first stopper detachably attached to the cylinder such that the first stopper contacts a rear surface of the inner stator; and a second stopper formed integrally with the cylinder such that the second stopper contacts a front surface of the inner stator, said second stopper having a protrusion outwardly protruding from the cylinder and inserted into a groove formed at the front surface of the inner stator, wherein a screw is formed at a side surface of the protrusion.
+</div>
+</div>
+
+<div id="rightside">
+
+</div>
+
+<div id="mynetwork"></div>
+
+<script type="text/javascript">
+  // create an array with nodes
+  var nodes = new vis.DataSet([
+    {id: 1, label: 'US7322199', title: 'Stirling cooler'},
+    {id: 2, label: 'Node 2'},
+    {id: 3, label: 'Node 3'},
+    {id: 4, label: 'Node 4'},
+    {id: 5, label: 'Node 5'} 
+  ]); 
+
+  // create an array with edges
+  var edges = new vis.DataSet([
+    {from: 1, to: 3, title: '1927'}, 
+    {from: 1, to: 2, color:{color:'red'}}, 
+    {from: 2, to: 4, color:'rgb(20,24,200)'}, 
+    {from: 2, to: 5}
+  ]); 
+
+  // create a network
+  var container = document.getElementById('mynetwork');
+  var data = { 
+    nodes: nodes,
+    edges: edges
+  };  
+  var options = {}; 
+  var network = new vis.Network(container, data, options);
+</script>
+
+
+<div id="footer">
+</div>
+
+</body>
+</html>
+
