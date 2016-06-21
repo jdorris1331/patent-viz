@@ -12,6 +12,8 @@ TABLE- patent_data
 CREATE TABLE patent_data ( ID int, claims text, abstract text, description mediumtext, images mediumblob );
 CREATE TABLE patent_info ( ID int, title tinytext, pub_date date, inventor tinytext, assignee tinytext, ref JSON, ref_by JSON );
 
+CREATE TABLE patent_test ( ID varchar(12) NOT NULL PRIMARY KEY, title tinytext, pub_date date, inventor tinytext, assignee tinytext, ref JSON, ref_by JSON );
+
 INSERT INTO patent_info VALUES ('7956546', 'Modular LED light bulb', '2011-06-07', 'Ghulam Hasnain', 'Bridgelux, Inc.', '[6127783, 6596977, 7215086, 7458934, 7479662, 7524097, 7641364, 20040066142, 20040222516, 20060097245, 20060227558, 20070109782]','[8306639, 8350485, 8421376, 8422889, 8430402, 8531137, 8708525]');
 
 INSERT INTO patent_data VALUES ('7956546', NULL, NULL, NULL, NULL);
@@ -19,3 +21,5 @@ UPDATE patent_data SET abstract = LOAD_FILE('/Users/sidsdman13/Documents/COSC_59
 
 SWITCHED TO PRIMARY KEY, *possibly still need to be not null
 ALTER TABLE patent_info ADD PRIMARY KEY (ID)
+
+DELETE FROM patent_test WHERE ID = "D0746541";
