@@ -22,12 +22,22 @@ app.get('/', function (req, res) {
 
 app.get('/search', function (req, res) {
 
-  //connection.connect();
-  connection.query('SELECT inventor FROM patent_info WHERE ID = ? ', [req.query.patent_num], function(err, rows, fields) {
+  connection.query('SELECT count(1) FROM patent_info WHERE ID = ? ', [req.query.patent_num], function(err, rows, fields) {
     if (err) throw err;
-    res.render('show_patent',{ title: req.query.patent_num, author: rows[0].inventor});
+    if(rows[0]['count(1)']==1) {
+      connection.query('SELECT inventor FROM patent_info WHERE ID = ? ', [req.query.patent_num], function(err, rows, fields) {
+        if (err) {
+          throw err;
+        }
+        else {
+          res.render('show_patent',{ title: req.query.patent_num, author: rows[0].inventor});
+        }
+      });
+    }
+    else {
+      res.render('patent_search');
+    }
   });
-  //connection.end();
 });
 
 app.use(express.static('public'));
