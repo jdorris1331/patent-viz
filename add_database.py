@@ -6,7 +6,7 @@ db = MySQLdb.connect('localhost','joe','password','patents');
 
 cursor = db.cursor()
 
-for i in range(0,999):
+for i in range(0,6891):
   print i
   file = "bulk_data/xx{0:04d}".format(i)
   tree = ET.parse(file)
@@ -42,23 +42,46 @@ for i in range(0,999):
 
   assignee = "NULL"
   if bib.find('assignees') is not None:
-    if bib.find('assignees').find('assignee').find('addressbook').find('orgname') is not None:
-      assignee = bib.find('assignees').find('assignee').find('addressbook').find('orgname').text
-    elif bib.find('assignees').find('assignee').find('addressbook').find('last-name') is not None:
-      assignee = bib.find('assignees').find('assignee').find('addressbook').find('first-name').text + " " + bib.find('assignees').find('assignee').find('addressbook').find('last-name').text
+    if bib.find('assignees').find('assignee').find('addressbook') is not None:
+      if bib.find('assignees').find('assignee').find('addressbook').find('orgname') is not None:
+        assignee = bib.find('assignees').find('assignee').find('addressbook').find('orgname').text
+      elif bib.find('assignees').find('assignee').find('addressbook').find('last-name') is not None:
+        assignee = bib.find('assignees').find('assignee').find('addressbook').find('first-name').text + " " + bib.find('assignees').find('assignee').find('addressbook').find('last-name').text
+    else:
+      assignee = bib.find('assignees').find('assignee').find('orgname').text
   assignee = assignee.replace("'","").encode('ascii','ignore')
   
-  ref = "NULL"
-  #for j in range(0,len(root.find('us-bibliographic-data-grant').find('us-references-cited'))):
-  #  ref += [root.find('us-bibliographic-data-grant').find('us-references-cited')[j].find('patcit').find('document-id').find('doc-number').text]  
+  ref = []
+  if bib.find('us-references-cited') is not None:
+    for j in range(0,len(bib.find('us-references-cited'))):
+      if bib.find('us-references-cited')[j].find('patcit') is not None:
+        ref += [bib.find('us-references-cited')[j].find('patcit').find('document-id').find('doc-number').text]  
+  else:
+    ref = "NULL"
   ref_by= "NULL"
 
+  abstract = "NULL"
+  if root.find('abstract') is not None:
+    abstract = ET.tostring(root.find('abstract'))
+    
+  abstract = abstract.replace("'","").encode('ascii','ignore')
+  
+  claims = "NULL"
+  if root.find('claims') is not None:
+    claims = ET.tostring(root.find('claims')).replace("'","").encode('ascii','ignore')
+  description = "NULL"
+  if root.find('description') is not None:
+    description = ET.tostring(root.find('description')).replace("'","").encode('ascii','ignore')
+  images = "NULL"
+
   query = "INSERT INTO patent_test VALUES ( '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', {6} )".format(ID,title,date,inventor,assignee,json.dumps(ref),ref_by) 
+  query2 = "INSERT INTO patent_data_test VALUES ( '{0}', '{1}', '{2}', '{3}', '{4}' )".format(ID,claims,abstract,description,images)
   print query
+  print query2
 
   cursor.execute(query)
+  cursor.execute(query2)
   db.commit()
-
 
   #for j in range(0,len(root.find('claims'))):
     #root.find('claims')[j].find('claim').find('claim-text').text

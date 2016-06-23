@@ -19,12 +19,26 @@ html
         p= abstract
 
       div(id="claims")
-        | 1. A Stirling cooler comprising: a case; a cylinder fixedly installed in the case, and provided with a piston such that the piston can reciprocate therein; a displacer installed in the piston such that the displacer can reciprocate therein; a regenerator connected to the displacer in a line in an axial direction of the cylinder; an outer stator fixed between the case and the cylinder; an inner stator inserted into an outer surface of the cylinder; a magnet positioned between the outer stator and the inner stator to reciprocate the piston; and a fixing device that fixes the inner stator to the cylinder, wherein the fixing device includes: a first stopper detachably attached to the cylinder such that the first stopper contacts a rear surface of the inner stator; and a second stopper formed integrally with the cylinder such that the second stopper contacts a front surface of the inner stator, said second stopper having a protrusion outwardly protruding from the cylinder and inserted into a groove formed at the front surface of the inner stator, wherein a screw is formed at a side surface of the protrusion.
+        p= claims
 
     div(id="rightside")
 
     div(id="mynetwork")
-
+      |<script type="text/javascript">
+      |var nodes = new vis.DataSet([
+      |  {id: 1, label: 'US7322199', title: 'Stirling cooler'},
+      |  {id: 2, label: 'Node 2'},
+      |  {id: 3, label: 'Node 3'},
+      |  {id: 4, label: 'Node 4'},
+      |  {id: 5, label: 'Node 5'} 
+      |]);   
+  
+      |var edges = new vis.DataSet([
+      |  {from: 1, to: 3, title: '1927'},
+      |  {from: 1, to: 2, color:{color:'red'}},
+      |  {from: 2, to: 4, color:'rgb(20,24,200)'},  
+      |  {from: 2, to: 5}
+      |]); 
       //script(type="text/javascript",src='../scripts/testscript.js')
       include ../scripts/testscript.js
 
