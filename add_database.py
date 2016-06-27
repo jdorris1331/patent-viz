@@ -65,7 +65,8 @@ for i in range(0,6891):
     abstract = ET.tostring(root.find('abstract'))
     
   abstract = abstract.replace("'","").encode('ascii','ignore')
-  
+ 
+  ####CLAIMS
   claims = "NULL"
   if root.find('claims') is not None:
     claims = ET.tostring(root.find('claims')).replace("'","").encode('ascii','ignore')
@@ -74,8 +75,8 @@ for i in range(0,6891):
     description = ET.tostring(root.find('description')).replace("'","").encode('ascii','ignore')
   images = "NULL"
 
-  query = "INSERT INTO patent_test VALUES ( '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', {6} )".format(ID,title,date,inventor,assignee,json.dumps(ref),ref_by) 
-  query2 = "INSERT INTO patent_data_test VALUES ( '{0}', '{1}', '{2}', '{3}', '{4}' )".format(ID,claims,abstract,description,images)
+  query = "INSERT INTO patent_info VALUES ( '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', {6} )".format(ID,title,date,inventor,assignee,json.dumps(ref),ref_by) 
+  query2 = "INSERT INTO patent_data VALUES ( '{0}', '{1}', '{2}', '{3}', '{4}' )".format(ID,claims,abstract,description,images)
   print query
   print query2
 

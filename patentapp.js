@@ -22,11 +22,11 @@ app.get('/', function (req, res) {
 
 app.get('/search', function (req, res) {
 
-  connection.query('SELECT count(1) FROM patent_test WHERE ID = ? ', [req.query.patent_num], function(err, rows, fields) {
+  connection.query('SELECT count(1) FROM patent_info WHERE ID = ? ', [req.query.patent_num], function(err, rows, fields) {
     if (err) throw err;
     if(rows[0]['count(1)']==1) {
       //connection.query('SELECT inventor FROM patent_info WHERE ID = ? ', [req.query.patent_num], function(err, rows, fields) {
-      connection.query('SELECT patent_test.inventor, patent_test.ref, patent_data_test.abstract, patent_data_test.claims FROM patent_test INNER JOIN patent_data_test ON patent_test.ID=patent_data_test.ID WHERE patent_test.ID=? ', [req.query.patent_num], function(err, rows, fields) {
+      connection.query('SELECT patent_info.inventor, patent_info.ref, patent_data.abstract, patent_data.claims FROM patent_info INNER JOIN patent_data ON patent_info.ID=patent_data.ID WHERE patent_info.ID=? ', [req.query.patent_num], function(err, rows, fields) {
         if (err) {
           throw err;
         }
@@ -36,11 +36,10 @@ app.get('/search', function (req, res) {
           nodes.push({id: 1, label: req.query.patent_num});
           var edges = [];
           for (i = 0; i < ref.length; i++) {
-            console.log(ref[i]);
+            //console.log(ref[i]);
             nodes.push({id: i+2, label: ref[i]});
             edges.push({from: i+2, to: 1});
           } 
-          console.log(rows[0].ref);
           /*var nodes = [
             {id: 1, label: 'US7322199', title: 'Stirling cooler'},
             {id: 2, label: 'Node 2'},
