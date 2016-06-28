@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/search', function (req, res) {
-
+  if(/^[0-9]{8}/.test(req.query.patent_num) == true ) {
   connection.query('SELECT count(1) FROM patent_info WHERE ID = ? ', [req.query.patent_num], function(err, rows, fields) {
     if (err) throw err;
     if(rows[0]['count(1)']==1) {
@@ -63,6 +63,11 @@ app.get('/search', function (req, res) {
       res.render('patent_search');
     }
   });
+  }
+  else { 
+    //match title against ...
+    res.render('patent_search');
+  }
 });
 
 app.use(express.static('public'));

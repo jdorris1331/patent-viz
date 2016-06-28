@@ -9,7 +9,7 @@ table- patent_info
 TABLE- patent_data 
 
 
-CREATE TABLE patent_data ( ID varchar(12) NOT NULL PRIMARY KEY, claims mediumtext, abstract text, description mediumtext, images mediumblob );
+CREATE TABLE patent_data ( ID varchar(12) NOT NULL PRIMARY KEY, claims mediumtext, abstract mediumtext, description mediumtext, images mediumblob );
 CREATE TABLE patent_info ( ID varchar(12) NOT NULL PRIMARY KEY, title text, pub_date date, inventor tinytext, assignee tinytext, ref JSON, ref_by JSON );
 
 CREATE TABLE patent_test ( ID varchar(12) NOT NULL PRIMARY KEY, title text, pub_date date, inventor tinytext, assignee tinytext, ref JSON, ref_by JSON );

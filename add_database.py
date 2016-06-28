@@ -60,19 +60,34 @@ for i in range(0,6891):
     ref = "NULL"
   ref_by= "NULL"
 
+  ####ABSTRACT
   abstract = "NULL"
   if root.find('abstract') is not None:
-    abstract = ET.tostring(root.find('abstract'))
+    abstract = ""
+    for j in range(0,len(root.find('abstract'))):
+      abstract += ET.tostring(root.find('abstract')[j])
     
   abstract = abstract.replace("'","").encode('ascii','ignore')
  
   ####CLAIMS
   claims = "NULL"
   if root.find('claims') is not None:
-    claims = ET.tostring(root.find('claims')).replace("'","").encode('ascii','ignore')
+    claims = ""
+    for j in range(0,len(root.find('claims'))):
+      if root.find('claims')[j].find('claim-text') is not None:
+        claims+=root.find('claims')[j].find('claim-text').text
+        claims+="<br>"
+    claims = claims.replace("'","").encode('ascii','ignore')
+    #claims = ET.tostring(root.find('claims')).replace("'","").encode('ascii','ignore')
+
+
+  ####DESCRIPTION
   description = "NULL"
   if root.find('description') is not None:
     description = ET.tostring(root.find('description')).replace("'","").encode('ascii','ignore')
+
+
+  ####IMAGES
   images = "NULL"
 
   query = "INSERT INTO patent_info VALUES ( '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', {6} )".format(ID,title,date,inventor,assignee,json.dumps(ref),ref_by) 
