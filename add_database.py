@@ -74,9 +74,17 @@ for i in range(0,6891):
   if root.find('claims') is not None:
     claims = ""
     for j in range(0,len(root.find('claims'))):
-      if root.find('claims')[j].find('claim-text') is not None:
-        claims+=root.find('claims')[j].find('claim-text').text
-        claims+="<br>"
+      #if root.find('claims')[j].find('claim-text') is not None:
+      #  if root.find('claims')[j].find('claim-text').text is not None:
+      #    claims+=root.find('claims')[j].find('claim-text').text
+      for claim in root.find("claims")[j]:
+        for text in claim.itertext():
+          claims+=text #.strip()
+        claims+="<br><br>"
+      #  if root.find('claims')[j].find('claim-text').find("claim-text") is not None:
+      #    for k in range(0,len(root.find('claims')[j].find('claim-text'))):
+      #      if root.find('claims')[j].find('claim-text')[k].text is not None:
+      #        claims+=root.find('claims')[j].find('claim-text')[k].text
     claims = claims.replace("'","").encode('ascii','ignore')
     #claims = ET.tostring(root.find('claims')).replace("'","").encode('ascii','ignore')
 

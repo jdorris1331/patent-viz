@@ -2,3 +2,5 @@ node patentapp.js
 
 
 patent-text inside patent text
+for every claim <br></br>
+if claim text inside just append
