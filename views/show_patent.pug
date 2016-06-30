@@ -25,6 +25,7 @@ html
 
     div(id="mynetwork")
       script(type='text/javascript').
+
         var nodes_list = !{JSON.stringify(nodes)};
         var nodes = new vis.DataSet(!{JSON.stringify(nodes)});
         var edges = new vis.DataSet(!{JSON.stringify(edges)});
@@ -34,8 +35,8 @@ html
         var network = new vis.Network(container, data, options);
         network.on("doubleClick", function (params) {
           params.event = "[original event]";
-          //document.getElementById('rightside').innerHTML = '<h2>doubleClick event:</h2>' + JSON.stringify(params, null, 4);
           document.getElementById('rightside').innerHTML = nodes_list[params["nodes"]-1].label;
+          window.location.href = "http://localhost:3000/search?patent_num=" + nodes_list[params["nodes"]-1].label;
         });
       
       //include ../scripts/testscript.js
