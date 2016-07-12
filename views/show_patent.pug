@@ -10,15 +10,18 @@ html
   body
 
     div(id="header")
-      h1= title
+      h1=id + ": " + title
+      //h1= title
       h2= author
 
     div(id="leftside")
 
       div(id="abstract")
+        h2= "Abstract"
         | !{abstract}
 
       div(id="claims")
+        h2= "Claims"
         p!= claims
 
     div(id="rightside")
