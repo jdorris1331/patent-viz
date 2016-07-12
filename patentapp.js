@@ -78,8 +78,17 @@ app.get('/search', function (req, res) {
   });
   }
   else { 
-    //match title against ...
-    res.render('patent_search');
+    //query for lower case word in patent_index and pass json data to results making links to IDs
+      connection.query('SELECT IDs FROM patent_index WHERE word=? ', [req.query.patent_num], function(err, rows, fields) {
+        if (err) {
+          throw err;
+        }
+        else {
+          var IDs = JSON.parse(rows[0].IDs);
+
+          res.render('results', { IDs: IDs });
+        }
+      });
   }
 });
 

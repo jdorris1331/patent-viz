@@ -1,5 +1,3 @@
-from http://www.ranks.nl/stopwords
-
 a
 able
 about

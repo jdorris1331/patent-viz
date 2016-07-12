@@ -1,0 +1,8 @@
+html
+  head
+    title
+      | results
+  body
+    each val in IDs
+      li
+        a(href="search?patent_num=" + val) #{val}
