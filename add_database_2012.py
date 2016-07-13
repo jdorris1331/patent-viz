@@ -6,9 +6,9 @@ db = MySQLdb.connect('localhost','joe','password','patents');
 
 cursor = db.cursor()
 
-for i in range(0,6526):
+for i in range(1147,4607):
   print i
-  file = "bulk_data2015_01/xx{0:04d}".format(i)
+  file = "bulk_data2012_01/xx{0:04d}".format(i)
   tree = ET.parse(file)
   root = tree.getroot()
 
@@ -37,7 +37,7 @@ for i in range(0,6526):
   temp_date = root.attrib['date-publ']
   date = temp_date[0:4] + "-" + temp_date[4:6] + "-" + temp_date[6:8]
   inventor = "NULL"
-  inventor = bib.find('us-parties').find('inventors').find('inventor').find('addressbook').find('first-name').text + " " + root.find('us-bibliographic-data-grant').find('us-parties').find('inventors').find('inventor').find('addressbook').find('last-name').text
+  inventor = bib.find('parties').find('applicants').find('applicant').find('addressbook').find('first-name').text + " " + bib.find('parties').find('applicants').find('applicant').find('addressbook').find('last-name').text
   inventor = inventor.replace("'","").encode('ascii','ignore')
 
   assignee = "NULL"
@@ -47,8 +47,11 @@ for i in range(0,6526):
         assignee = bib.find('assignees').find('assignee').find('addressbook').find('orgname').text
       elif bib.find('assignees').find('assignee').find('addressbook').find('last-name') is not None:
         assignee = bib.find('assignees').find('assignee').find('addressbook').find('first-name').text + " " + bib.find('assignees').find('assignee').find('addressbook').find('last-name').text
-    else:
+    elif bib.find('assignees').find('assignee').find('orgname') is not None:
       assignee = bib.find('assignees').find('assignee').find('orgname').text
+    elif bib.find('assignees').find('assignee').find('last-name') is not None:
+      assignee = bib.find('assignees').find('assignee').find('first-name').text + " " + bib.find('assignees').find('assignee').find('last-name').text
+
   assignee = assignee.replace("'","").encode('ascii','ignore')
   
   ref = []
