@@ -39,7 +39,7 @@ app.get('/search', function (req, res) {
     if (err) throw err;
     if(rows[0]['count(1)']==1) {
       //connection.query('SELECT inventor FROM patent_info WHERE ID = ? ', [patent_num], function(err, rows, fields) {
-      connection.query('SELECT patent_info.title, patent_info.inventor, patent_info.ref, patent_data.abstract, patent_data.claims FROM patent_info INNER JOIN patent_data ON patent_info.ID=patent_data.ID WHERE patent_info.ID=? ', [patent_num], function(err, rows, fields) {
+      connection.query('SELECT patent_info.title, patent_info.inventor, patent_info.ref, patent_info.topics, patent_data.abstract, patent_data.claims FROM patent_info INNER JOIN patent_data ON patent_info.ID=patent_data.ID WHERE patent_info.ID=? ', [patent_num], function(err, rows, fields) {
         if (err) {
           throw err;
         }
@@ -53,6 +53,7 @@ app.get('/search', function (req, res) {
             nodes.push({id: i+2, label: ref[i]});
             edges.push({from: i+2, to: 1});
           } 
+          var topics = JSON.parse(rows[0].topics);
           /*var nodes = [
             {id: 1, label: 'US7322199', title: 'Stirling cooler'},
             {id: 2, label: 'Node 2'},
@@ -68,7 +69,7 @@ app.get('/search', function (req, res) {
             {from: 2, to: 5}
           ];*/ 
       //var data_json = JSON.stringify(data);
-          res.render('show_patent',{ title: rows[0].title, id: patent_num, author: rows[0].inventor, abstract: rows[0].abstract, claims: rows[0].claims, nodes: nodes, edges: edges });
+          res.render('show_patent',{ title: rows[0].title, id: patent_num, author: rows[0].inventor, abstract: rows[0].abstract, claims: rows[0].claims, nodes: nodes, edges: edges, topics: topics });
         }
       });
     }

@@ -8,21 +8,25 @@ db = MySQLdb.connect('localhost','joe','password','patents');
 
 cursor = db.cursor()
 
+#NEED TO ADD TITLE AND MAKE MORE IMPORTANT
 query = "SELECT ID,claims,abstract FROM patent_data" 
 cursor.execute(query)
 output = cursor.fetchall()
 
+# READ IN STOPWORDS
 stopwords = []
 with open("stopwords.txt", 'r') as f:
   for line in f:
     stopwords += [line.strip()]
 
+#READ IN INVERSE DOCUMENT FREQUENCIES
 idf = {}
 with open("idf_cut.txt", "r") as f:
   for line in f:
     idf[line.split()[0]] = line.split()[1]
 
 doc_words_count = {}
+#FOR EACH PATENT ID FIND IMPORTANT WORDS
 for i in output:
   print i[0]
   #print

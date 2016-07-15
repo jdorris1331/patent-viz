@@ -6,9 +6,9 @@ db = MySQLdb.connect('localhost','joe','password','patents');
 
 cursor = db.cursor()
 
-for i in range(1147,4607):
+for i in range(2859,4265):
   print i
-  file = "bulk_data2012_01/xx{0:04d}".format(i)
+  file = "bulk_data2012_05/xx{0:04d}".format(i)
   tree = ET.parse(file)
   root = tree.getroot()
 
@@ -55,10 +55,10 @@ for i in range(1147,4607):
   assignee = assignee.replace("'","").encode('ascii','ignore')
   
   ref = []
-  if bib.find('us-references-cited') is not None:
-    for j in range(0,len(bib.find('us-references-cited'))):
-      if bib.find('us-references-cited')[j].find('patcit') is not None:
-        ref += [bib.find('us-references-cited')[j].find('patcit').find('document-id').find('doc-number').text]  
+  if bib.find('references-cited') is not None:
+    for j in range(0,len(bib.find('references-cited'))):
+      if bib.find('references-cited')[j].find('patcit') is not None:
+        ref += [bib.find('references-cited')[j].find('patcit').find('document-id').find('doc-number').text]  
   else:
     ref = "NULL"
   ref_by= "NULL"
@@ -101,31 +101,13 @@ for i in range(1147,4607):
   ####IMAGES
   images = "NULL"
 
-  query = "INSERT INTO patent_info VALUES ( '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', {6} )".format(ID,title,date,inventor,assignee,json.dumps(ref),ref_by) 
+  query = "INSERT INTO patent_info VALUES ( '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', {6}, NULL )".format(ID,title,date,inventor,assignee,json.dumps(ref),ref_by) 
+  #query = "UPDATE patent_info SET ref='{0}' WHERE ID='{1}'".format(json.dumps(ref),ID) 
   query2 = "INSERT INTO patent_data VALUES ( '{0}', '{1}', '{2}', '{3}', '{4}' )".format(ID,claims,abstract,description,images)
-  #print query
-  #print query2
 
   cursor.execute(query)
   cursor.execute(query2)
   db.commit()
 
-  #for j in range(0,len(root.find('claims'))):
-    #root.find('claims')[j].find('claim').find('claim-text').text
-
-  #abstract 
-
-  #description
-
-  #images
-
 db.close()
 
-#INSERT INTO patent_test VALUES ('7956546', 'Modular LED light bulb', '2011-06-07', 'Ghulam Hasnain', 'Bridgelux, Inc.', '[6127783, 6596977, 7215086, 7458934, 7479662, 7524097, 7641364, 20040066142, 20040222516, 20060097245, 20060227558, 20070109782]','[8306639, 8350485, 8421376, 8422889, 8430402, 8531137, 8708525]');
-
-#patent_data = ID, claims, abstract, description, images
-#  data = cursor.fetchone()
-
-
-
-#json.loads(data[5])
