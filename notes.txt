@@ -4,3 +4,8 @@ node patentapp.js
 patent-text inside patent text
 for every claim <br></br>
 if claim text inside just append
+
+/usr/local/Cellar/python/2.7.9/bin/python
+
+use gensim similarity query and save after each one
+if searched before fast, if not perform lsi

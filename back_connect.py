@@ -6,7 +6,7 @@ db = MySQLdb.connect('localhost','joe','password','patents');
 
 cursor = db.cursor()
 
-query = "SELECT ID FROM patent_info limit 40000 offset 65000" 
+query = "SELECT ID FROM patent_info" 
 cursor.execute(query)
 output = cursor.fetchall()
 
