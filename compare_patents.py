@@ -1,4 +1,5 @@
 import MySQLdb
+import json
 from gensim import corpora, models, similarities
 
 
@@ -9,33 +10,52 @@ from gensim import corpora, models, similarities
 #            yield dictionary.doc2bow(line.lower().split())
 
 
+colors = ["#F7271D","#F63D1B","#F55419","#F46B18","#F38316","#F29A14","#F1B213","#F0C911","#EFE110","#E3EE0E","#C9ED0D","#AFEC0B","#94EB0A","#7AEA08","#60E907","#45E805","#2AE704","#0FE602","#01E50D","#00E525"]
+
 
 db = MySQLdb.connect('localhost','joe','password','patents');
 
 cursor = db.cursor()
 
-query = "SELECT ID,claims,abstract FROM patent_data limit 10" 
+query = "SELECT ID,claims,abstract FROM patent_data limit 1 offset 80214" 
 cursor.execute(query)
 output = cursor.fetchall()
 
-dictionary = corpora.Dictionary.load('patents20k.dict')
-corpus = corpora.MmCorpus('patents20k.mm')
-tfidf = models.TfidfModel.load("model.tfidf") # step 1 -- initialize a model
+dictionary = corpora.Dictionary.load('results/patents20k.dict')
+corpus = corpora.MmCorpus('results/patents20k.mm')
+tfidf = models.TfidfModel.load("results/model.tfidf") # step 1 -- initialize a model
 corpus_tfidf = tfidf[corpus]
-lsi = models.LsiModel.load("model.lsi")
+lsi = models.LsiModel.load("results/model.lsi")
 corpus_lsi = lsi[corpus_tfidf]
 
 index = similarities.MatrixSimilarity(lsi[corpus])
 
-documents = [row[1] + row[2] for row in output]
+documents = [[row[0],row[1] + row[2]] for row in output]
+
 for doc in documents:
-  vec_bow = dictionary.doc2bow(doc.lower().split())
+  print doc[0]
+  vec_bow = dictionary.doc2bow(doc[1].lower().split())
   vec_lsi = lsi[vec_bow]
   sims = index[vec_lsi]
   sims = sorted(enumerate(sims), key=lambda item: -item[1])
+  temp = sims[0:10]
+  add = []
+  for i in temp:
+    query = "SELECT ID,title FROM patent_info limit 1 offset {0}".format(i[0])
+    cursor.execute(query)
+    output = cursor.fetchall()
+    add += [[output[0][0],output[0][1],"%.4f" % i[1]]]
+  
   print(sims[0:10])
+  print add
   print
   print
+  query = "UPDATE patent_info SET similar='{0}' WHERE ID='{1}'".format(json.dumps(add),doc[0])
+  cursor.execute(query)
+  db.commit()
+  print query
+
+db.close()
 
 
 #frequency = defaultdict(int)

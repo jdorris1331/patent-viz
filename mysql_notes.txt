@@ -25,3 +25,7 @@ SWITCHED TO PRIMARY KEY, *possibly still need to be not null
 ALTER TABLE patent_info ADD PRIMARY KEY (ID)
 
 DELETE FROM patent_test WHERE ID = "D0746541";
+
+SELECT count(*) FROM patent_info WHERE ID < 9033323 and ID NOT LIKE 'D%' OR 'R%';
+
+SELECT * FROM patent_info WHERE id in ('07155746','07155747');

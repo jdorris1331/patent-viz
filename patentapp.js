@@ -13,6 +13,7 @@ function push_edge(val) {
   console.log(edges);
 }*/
 
+var colors = ["#F7271D","#F63D1B","#F55419","#F46B18","#F38316","#F29A14","#F1B213","#F0C911","#EFE110","#E3EE0E","#C9ED0D","#AFEC0B","#94EB0A","#7AEA08","#60E907","#45E805","#2AE704","#0FE602","#01E50D","#00E525"]
 
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
@@ -46,13 +47,14 @@ app.get('/search', function (req, res) {
   connection.query('SELECT count(1) FROM patent_info WHERE ID = ? ', [patent_num], function(err_x, rows_x, fields_x) {
     if (err_x) throw err_x;
     if(rows_x[0]['count(1)']==1) {
-      connection.query('SELECT patent_info.title, patent_info.inventor, patent_info.ref, patent_info.ref_by, patent_info.topics, patent_data.abstract, patent_data.claims FROM patent_info INNER JOIN patent_data ON patent_info.ID=patent_data.ID WHERE patent_info.ID=? ', [patent_num], function(err_y, rows_y, fields_y) {
+      connection.query('SELECT patent_info.title, patent_info.inventor, patent_info.ref, patent_info.ref_by, patent_info.topics, patent_info.similar, patent_data.abstract, patent_data.claims FROM patent_info INNER JOIN patent_data ON patent_info.ID=patent_data.ID WHERE patent_info.ID=? ', [patent_num], function(err_y, rows_y, fields_y) {
         if (err_y) {
           throw err_y;
         }
         else {
           var ref = JSON.parse(rows_y[0].ref);
           var ref_by = JSON.parse(rows_y[0].ref_by);
+          var similar = JSON.parse(rows_y[0].similar);
           
           var topics = JSON.parse(rows_y[0].topics);
           if (topics == null){
@@ -69,11 +71,33 @@ app.get('/search', function (req, res) {
             //console.log(nodes);
           }
           if (ref_by != null) {
+          ref_by_length = ref_by.length
           for (i = 0; i < ref_by.length; i++) {
-            nodes.push({id: i+ref.length+2, label: ref_by[i], color: 'red', group: 1});
+            nodes.push({id: i+ref.length+2, label: ref_by[i], color: 'orange', group: 1});
             edges.push({from: i+ref.length+2, to: 1, arrows: 'to'});
           }
           }
+          else {
+            ref_by_length = 0;
+          }
+
+          //need to check if similar by no ref_by
+          if (similar != null) {
+          min = parseFloat(similar[9][2]);
+          max = parseFloat(similar[0][2]);
+          range = max-min;
+          for (i = 0; i < similar.length; i++) {
+            value = Math.round(((parseFloat(similar[i][2])-min)/range)*5)
+            ci = Math.round(parseFloat(similar[i][2])*20)
+            console.log(value);
+            nodes.push({id: i+ref.length+ref_by_length+2, label: similar[i][0], color: colors[20-ci], group: 2});
+            edges.push({from: i+ref.length+ref_by_length+2, to: 1, dashes: true, value: value});
+          }
+          }
+          else {
+            similar = [0];
+          }
+
         
             
             /*if(/^\d+$/.test(ref[i]) == true ) {
@@ -122,7 +146,7 @@ app.get('/search', function (req, res) {
     
           }  */
       
-          res.render('show_patent',{ title: rows_y[0].title, id: patent_num, author: rows_y[0].inventor, abstract: rows_y[0].abstract, claims: rows_y[0].claims, nodes: nodes, edges: edges, topics: topics });
+          res.render('show_patent',{ title: rows_y[0].title, id: patent_num, author: rows_y[0].inventor, abstract: rows_y[0].abstract, claims: rows_y[0].claims, nodes: nodes, edges: edges, topics: topics, similar: similar });
         }
       });
     }
@@ -143,9 +167,23 @@ app.get('/search', function (req, res) {
         }
         else {
           var IDs = JSON.parse(rows[0].IDs);
-
-          //pass rows instead
-          res.render('results', { IDs: IDs  });
+          temp = JSON.stringify(IDs).replace("[","(").replace("]",")");
+          console.log(temp);
+          var queryString = "SELECT id,title FROM patent_info WHERE id IN " + temp;
+          console.log(queryString);
+          connection.query(queryString, function(err_q, rows_q, fields_q) {
+            if (err) {
+              throw err;
+            }
+            if (rows_q == null) {
+              res.render('patent_search');
+            }
+            else {
+            //pass rows instead
+              console.log(rows_q);
+              res.render('results', { IDs: rows_q  });
+            }
+          });
         }
       });
       }

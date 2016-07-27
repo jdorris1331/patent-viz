@@ -19,6 +19,7 @@
     width:320px;
     float:right;
     padding:5px;
+    overflow-y:scroll;
 }
 #abstract {
     line-height:18px;
@@ -46,6 +47,14 @@
     overflow-y:scroll;
     border: 1px solid lightgray;
 }
+#topics {
+    width:600px;
+    height:100px;
+    background-color:#eeeeee;
+    border: 1px solid black;
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+}
 #footer {
     background-color:black;
     color:white;
@@ -53,4 +62,3 @@
     text-align:center;
     padding:5px;
 }
-

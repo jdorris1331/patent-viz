@@ -9,3 +9,5 @@ if claim text inside just append
 
 use gensim similarity query and save after each one
 if searched before fast, if not perform lsi
+
+09033323 has topics

@@ -5,4 +5,4 @@ html
   body
     each val in IDs
       li
-        a(href="search?patent_num=" + val) #{val}
+        a(href="http://localhost:3000/search?patent_num=" + val.id)=val.id + ": " + val.title
