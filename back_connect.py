@@ -6,7 +6,7 @@ db = MySQLdb.connect('localhost','joe','password','patents');
 
 cursor = db.cursor()
 
-query = "SELECT ID FROM patent_info" 
+query = "SELECT ID FROM patent_info limit 100000 offset 6000" 
 cursor.execute(query)
 output = cursor.fetchall()
 
@@ -22,16 +22,38 @@ for i in output:
   if ref != "NULL":
     #print ref
     for j in ref:
-      query = "SELECT EXISTS(SELECT * FROM patent_info WHERE ID='0{0}')".format(j.encode('ascii','ignore'))
-      cursor.execute(query)
-      exists = cursor.fetchall()
-      if exists[0][0] == "1":
-        #SELECT ref_by
-        #if NULL create [] else loads and append then dumps
-        print i
-        print "  0{0}".format(j)
+      try:
+        if int(j) < int(i[0]):
+          query = "SELECT EXISTS(SELECT * FROM patent_info WHERE ID='0{0}')".format(j.encode('ascii','ignore'))
+          #print query
+          cursor.execute(query)
+          exists = cursor.fetchall()
+          #print exists
+          #print exists[0][0]
+          if exists[0][0] == 1:
+            query = "SELECT ref_by FROM patent_info WHERE ID='0{0}'".format(j.encode('ascii','ignore'))
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            if rows[0][0] == None:
+              ref_by = [i[0]]
+              query = "UPDATE patent_info SET ref_by = '{0}' WHERE ID='0{1}'".format(json.dumps(ref_by),j.encode('ascii','ignore'))
+              cursor.execute(query)
+              rows = cursor.fetchall()
+              print query
+              db.commit()
+            else:
+              ref_by = json.loads(rows[0][0])
+              if i[0] not in ref_by:
+                ref_by += [i[0]]
+              query = "UPDATE patent_info SET ref_by = '{0}' WHERE ID='0{1}'".format(json.dumps(ref_by),j.encode('ascii','ignore'))
+              print query
+              cursor.execute(query)
+              db.commit()
+            print i[0]
+            print "  0{0}".format(j)
+      except:
+        pass
   scan = scan + 1
-    #db.commit()
 
 
 db.close()

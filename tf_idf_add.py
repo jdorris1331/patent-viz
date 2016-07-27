@@ -9,7 +9,7 @@ db = MySQLdb.connect('localhost','joe','password','patents');
 cursor = db.cursor()
 
 #NEED TO ADD TITLE AND MAKE MORE IMPORTANT
-query = "SELECT ID,claims,abstract FROM patent_data" 
+query = "SELECT ID,claims,abstract FROM patent_data limit 20000 offset 70000" 
 cursor.execute(query)
 output = cursor.fetchall()
 
@@ -21,7 +21,7 @@ with open("stopwords.txt", 'r') as f:
 
 #READ IN INVERSE DOCUMENT FREQUENCIES
 idf = {}
-with open("idf_cut.txt", "r") as f:
+with open("results/idf_cut.txt", "r") as f:
   for line in f:
     idf[line.split()[0]] = line.split()[1]
 
