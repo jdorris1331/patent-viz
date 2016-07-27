@@ -41,7 +41,7 @@ html
         var network = new vis.Network(container, data, options);
         network.on("doubleClick", function (params) {
           params.event = "[original event]";
-          document.getElementById('rightside').innerHTML = nodes_list[params["nodes"]-1].label;
+          //document.getElementById('rightside').innerHTML = nodes_list[params["nodes"]-1].label;
           window.location.href = "http://localhost:3000/search?patent_num=" + nodes_list[params["nodes"]-1].label;
         });
       

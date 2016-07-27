@@ -64,13 +64,15 @@ app.get('/search', function (req, res) {
           edges = [];
           for (i = 0; i < ref.length; i++) {
             //console.log(ref[i]);
-            nodes.push({id: i+2, label: ref[i]});
-            edges.push({from: i+2, to: 1});
+            nodes.push({id: i+2, label: ref[i], group: 0});
+            edges.push({from: i+2, to: 1, arrows: 'from'});
             //console.log(nodes);
           }
+          if (ref_by != null) {
           for (i = 0; i < ref_by.length; i++) {
-            nodes.push({id: i+ref.length+2, label: ref_by[i], color: 'red'});
-            edges.push({from: i+ref.length+2, to: 1});
+            nodes.push({id: i+ref.length+2, label: ref_by[i], color: 'red', group: 1});
+            edges.push({from: i+ref.length+2, to: 1, arrows: 'to'});
+          }
           }
         
             
@@ -131,6 +133,9 @@ app.get('/search', function (req, res) {
   }
   else { 
     //query for lower case word in patent_index and pass json data to results making links to IDs
+    connection.query('SELECT count(1) FROM patent_index WHERE word = ? ', [req.query.patent_num], function(err_x, rows_x, fields_x) {
+      if (err_x) throw err_x;
+      if(rows_x[0]['count(1)']==1) {
       connection.query('SELECT IDs FROM patent_index WHERE word=? ', [req.query.patent_num], function(err, rows, fields) {
         //need to check if word exists
         if (err) {
@@ -143,6 +148,11 @@ app.get('/search', function (req, res) {
           res.render('results', { IDs: IDs  });
         }
       });
+      }
+      else {
+        res.render('patent_search');
+      }
+    });
   }
 });
 
