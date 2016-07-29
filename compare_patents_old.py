@@ -17,8 +17,7 @@ db = MySQLdb.connect('localhost','joe','password','patents');
 
 cursor = db.cursor()
 
-#query = "SELECT ID,claims,abstract FROM patent_data limit 42000 offset 58700" #offset 80214" 
-query = "SELECT ID FROM patent_data limit 30000 offset 70700" #offset 80214" 
+query = "SELECT ID,claims,abstract FROM patent_data limit 100000 #offset 80214" 
 cursor.execute(query)
 output = cursor.fetchall()
 
@@ -32,35 +31,32 @@ corpus_lsi = lsi[corpus_tfidf]
 #index = similarities.MatrixSimilarity(lsi[corpus])
 index = similarities.MatrixSimilarity.load('patents.index')
 #print "index finished"
-documents = output
-#documents = [[row[0],row[1] + row[2]] for row in output]
-#scan = 0
-ind = 0
-for doc in corpus_lsi[70700:]: #documents:
-  if ind%10 == 0:
-    print ind
-  #scan += 1
+documents = [[row[0],row[1] + row[2]] for row in output]
+scan = 0
+for doc in documents:
+  if scan%100 == 0:
+    print scan
+  scan += 1
   #print doc[0]
-  #vec_bow = dictionary.doc2bow(doc[1].lower().split())
-  #vec_lsi = lsi[vec_bow]
-  sims = index[doc]
+  vec_bow = dictionary.doc2bow(doc[1].lower().split())
+  vec_lsi = lsi[vec_bow]
+  sims = index[vec_lsi]
   sims = sorted(enumerate(sims), key=lambda item: -item[1])
-  temp = sims[1:11]
-  add = []
-  for i in temp:
-    query = "SELECT ID,title FROM patent_info limit 1 offset {0}".format(i[0])
-    cursor.execute(query)
-    output = cursor.fetchall()
-    add += [[output[0][0],output[0][1],"%.4f" % i[1]]]
+  temp = sims[0:10]
+%  add = []
+%  for i in temp:
+%    query = "SELECT ID,title FROM patent_info limit 1 offset {0}".format(i[0])
+%    cursor.execute(query)
+%    output = cursor.fetchall()
+%    add += [[output[0][0],output[0][1],"%.4f" % i[1]]]
   
-  #print(add)
+  print(sims[0:10])
   #print 
   #print
   #print
-  query = "UPDATE patent_info SET similar='{0}' WHERE ID='{1}'".format(json.dumps(add),documents[ind][0])
-  cursor.execute(query)
-  db.commit()
-  ind=ind+1
+%  query = "UPDATE patent_info SET similar='{0}' WHERE ID='{1}'".format(json.dumps(add),doc[0])
+%  cursor.execute(query)
+%  db.commit()
   #print query
 
 db.close()

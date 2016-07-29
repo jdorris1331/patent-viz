@@ -87,11 +87,11 @@ app.get('/search', function (req, res) {
           max = parseFloat(similar[0][2]);
           range = max-min;
           for (i = 0; i < similar.length; i++) {
-            value = Math.round(((parseFloat(similar[i][2])-min)/range)*5)
+            value = Math.round(((parseFloat(similar[i][2])-min)/range)*6)
             ci = Math.round(parseFloat(similar[i][2])*20)
             console.log(value);
             nodes.push({id: i+ref.length+ref_by_length+2, label: similar[i][0], color: colors[20-ci], group: 2});
-            edges.push({from: i+ref.length+ref_by_length+2, to: 1, dashes: true, value: value});
+            edges.push({from: i+ref.length+ref_by_length+2, to: 1, dashes: [2,10], value: value});
           }
           }
           else {
