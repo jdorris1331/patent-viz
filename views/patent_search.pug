@@ -2,7 +2,15 @@ html
   head
     title
       | Patent Search
+
+    style
+      include patent_search.css
+
   body
-    form(action="/search",method="get")
-      input(type="text",name="patent_num")
-      input(type="submit",value="Submit")
+    div(id="header")
+      img(src="https://s32.postimg.org/6ml5lcalh/Logo.png")
+      p
+      form(action="/search",method="get")
+        div
+          textarea(rows="10",cols="40",name="patent_num")
+        input(type="submit",value="Submit")

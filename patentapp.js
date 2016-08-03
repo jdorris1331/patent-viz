@@ -47,7 +47,7 @@ app.get('/search', function (req, res) {
   connection.query('SELECT count(1) FROM patent_info WHERE ID = ? ', [patent_num], function(err_x, rows_x, fields_x) {
     if (err_x) throw err_x;
     if(rows_x[0]['count(1)']==1) {
-      connection.query('SELECT patent_info.title, patent_info.inventor, patent_info.ref, patent_info.ref_by, patent_info.topics, patent_info.similar, patent_data.abstract, patent_data.claims FROM patent_info INNER JOIN patent_data ON patent_info.ID=patent_data.ID WHERE patent_info.ID=? ', [patent_num], function(err_y, rows_y, fields_y) {
+      connection.query('SELECT patent_info.title, patent_info.inventor, patent_info.assignee, patent_info.ref, patent_info.ref_by, patent_info.topics, patent_info.similar, patent_data.abstract, patent_data.claims FROM patent_info INNER JOIN patent_data ON patent_info.ID=patent_data.ID WHERE patent_info.ID=? ', [patent_num], function(err_y, rows_y, fields_y) {
         if (err_y) {
           throw err_y;
         }
@@ -87,7 +87,7 @@ app.get('/search', function (req, res) {
           max = parseFloat(similar[0][2]);
           range = max-min;
           for (i = 0; i < similar.length; i++) {
-            value = Math.round(((parseFloat(similar[i][2])-min)/range)*6)
+            value = Math.round(((parseFloat(similar[i][2])-min)/range)*10)
             ci = Math.round(parseFloat(similar[i][2])*20)
             console.log(value);
             nodes.push({id: i+ref.length+ref_by_length+2, label: similar[i][0], color: colors[20-ci], group: 2});
@@ -146,7 +146,7 @@ app.get('/search', function (req, res) {
     
           }  */
       
-          res.render('show_patent',{ title: rows_y[0].title, id: patent_num, author: rows_y[0].inventor, abstract: rows_y[0].abstract, claims: rows_y[0].claims, nodes: nodes, edges: edges, topics: topics, similar: similar });
+          res.render('show_patent',{ title: rows_y[0].title, id: patent_num, inventor: rows_y[0].inventor, assignee: rows_y[0].assignee, abstract: rows_y[0].abstract, claims: rows_y[0].claims, nodes: nodes, edges: edges, topics: topics, similar: similar });
         }
       });
     }

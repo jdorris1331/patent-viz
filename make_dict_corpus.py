@@ -48,11 +48,17 @@ for text in texts:
   for token in text:
     frequency[token] +=1
 print "created frequency"
- 
+
+#print len(frequency) 
 texts = [[token for token in text if frequency[token] > 1]
          for text in texts]
 print "removed single words"
 
+#sum = 0
+#for token in frequency: 
+#  if frequency[token] > 1:
+#    sum+=1
+#print sum
 dictionary = corpora.Dictionary(texts)
 print "created dictionary"
 dictionary.save('patents.dict')
@@ -60,28 +66,6 @@ corpus = [dictionary.doc2bow(text) for text in texts]
 print "created corpus"
 corpora.MmCorpus.serialize('patents.mm', corpus)
    
-#tfidf = models.TfidfModel(corpus)
-#print "created tfidf model"
-#corpus_tfidf = tfidf[corpus]
-#print "created tfidf"
-
-#lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=500)
-#print "created lsi model"
-#corpus_lsi = lsi[corpus_tfidf]
-#print "created lsi"
-#index = similarities.MatrixSimilarity(corpus_lsi)
-#print "performed similarity"
-
-#print lsi.print_topics(500)
- 
-#for i in corpus_lsi:
-  #print i
-  #print " ",
-
-  #query = "INSERT INTO patent_index VALUES ( '{0}', '{1}' )".format(i, json.dumps(index[i]))
-  #cursor.execute(query)
-  #db.commit()
-
 db.close()
 
 

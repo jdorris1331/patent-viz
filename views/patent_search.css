@@ -1,0 +1,13 @@
+#header {
+    background-color:white;
+    text-align:center;
+    padding:5px;
+}
+#searchbar {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:520px;
+    width:320px;
+    float:left;
+    padding:5px;
+}
