@@ -59,7 +59,7 @@ app.get('/search', function (req, res) {
           }
 
           var nodes = [];
-          nodes.push({id: 1, label: patent_num});
+          nodes.push({id: 1, label: patent_num, color: 'red'});
           edges = [];
           for (i = 0; i < ref.length; i++) {
             //console.log(ref[i]);
@@ -70,7 +70,7 @@ app.get('/search', function (req, res) {
           if (ref_by != null) {
           ref_by_length = ref_by.length
           for (i = 0; i < ref_by.length; i++) {
-            nodes.push({id: i+ref.length+2, label: ref_by[i], color: 'orange', group: 1});
+            nodes.push({id: i+ref.length+2, label: ref_by[i], color: 'pink', group: 1});
             edges.push({from: i+ref.length+2, to: 1, arrows: 'to'});
           }
           }
