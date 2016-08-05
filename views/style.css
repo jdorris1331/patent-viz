@@ -8,7 +8,7 @@
     line-height:30px;
     background-color:#eeeeee;
     height:520px;
-    width:320px;
+    width:270px;
     float:left;
     padding:5px;
 }
@@ -16,7 +16,7 @@
     line-height:30px;
     background-color:#eeeeee;
     height:520px;
-    width:320px;
+    width:250px;
     float:right;
     padding:5px;
     overflow-y:scroll;
@@ -25,7 +25,7 @@
     line-height:18px;
     background-color:#eeeeee;
     height:250px;
-    width:300px;
+    width:250px;
     float:left;
     padding:5px;
     overflow-y:scroll;
@@ -35,20 +35,20 @@
     line-height:18px;
     background-color:#eeeeee;
     height:250px;
-    width:300px;
+    width:250px;
     float:left;
     padding:5px;
     overflow-y:scroll;
     border: 1px solid black;
 }
 #mynetwork {
-    width:600px;
+    width:450px;
     height:400px;
     overflow-y:scroll;
     border: 1px solid lightgray;
 }
 #topics {
-    width:600px;
+    width:450px;
     height:100px;
     background-color:#eeeeee;
     border: 1px solid black;

@@ -26,6 +26,7 @@ html
         p!= claims
 
     div(id="rightside")
+      h2= "Similar Patents"
       ol(type="1")
         each val in similar
           li
@@ -51,6 +52,7 @@ html
       //include ../scripts/testscript.js
 
     div(id="topics")
+      h2= "Important Words"
       each val in topics 
         li=val
     div(id="footer")
